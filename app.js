@@ -65,13 +65,14 @@ app.get("/listings/:id/edit",async(req,res)=>{
 // update Route
 app.put("/listings/:id", async (req, res) => {
     let { id } = req.params;
+    // console.log(req.body.listing);
     const updatedListing = await Listing.findByIdAndUpdate(
         id,
         {
             ...req.body.listing,
             image: {
-                url: req.body.listing.image.url/"default_image_url",
-                filename: req.body.listing.image.filename/"default_filename",
+                url: req.body.listing.image?.url || "https://images.unsplash.com/photo-1641808886171-3d300caed21a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                filename: req.body.listing.image?.filename || "listingimage",
             },
         },
         { new: true }
@@ -80,7 +81,7 @@ app.put("/listings/:id", async (req, res) => {
 });
 // app.put("/listings/:id",async(req,res)=>{
 //     let {id} = req.params;
-//     console.log(id);
+//     // console.log(id);
 //     await Listing.findByIdAndUpdate(id,{...req.body.listing})//here we perform the deconstruction
 //     res.redirect("/listings");
 
@@ -98,12 +99,7 @@ app.delete("/listings/:id",async(req,res)=>{
 //         description:"By the Beach",
 //         price:1200,
 //         location:"Calangute, Goa",
-//         country:"India",
-//      })
-//     await sampleListing.save();
-//     console.log("samole was saved");
-//     res.send("successfull testing")
-// })
+
 
 app.listen(8080,()=>{
     console.log("Server is listening at port 8080 ");
